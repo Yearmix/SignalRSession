@@ -12,10 +12,10 @@ namespace YRX.SignalRSession.WebOnline
     /// <summary>
     /// For more info go to https://gist.github.com/odytrice/5842010
     /// </summary>
-    public class NinjectHttpResolver : IDependencyResolver, IDependencyScope
+    public class NinjectHttpResolver : IDependencyResolver
     {
         public IKernel Kernel { get; private set; }
-        public NinjectHttpResolver(params NinjectModule[] modules)
+        public NinjectHttpResolver(params INinjectModule[] modules)
         {
             Kernel = new StandardKernel(modules);
         }
@@ -50,7 +50,7 @@ namespace YRX.SignalRSession.WebOnline
     {
         private static NinjectHttpResolver _resolver;
 
-        public static void RegisterModules(NinjectModule[] modules)
+        public static void RegisterModules(INinjectModule[] modules)
         {
             _resolver = new NinjectHttpResolver(modules);
             GlobalConfiguration.Configuration.DependencyResolver = _resolver;

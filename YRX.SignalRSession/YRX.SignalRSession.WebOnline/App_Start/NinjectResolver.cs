@@ -17,7 +17,7 @@ namespace YRX.SignalRSession.WebOnline
     {
         public IKernel Kernel { get; private set; }
 
-        public NinjectResolver(params NinjectModule[] modules)
+        public NinjectResolver(params INinjectModule[] modules)
         {
             Kernel = new StandardKernel(modules);
         }
@@ -43,7 +43,7 @@ namespace YRX.SignalRSession.WebOnline
     {
         private static NinjectResolver _resolver;
 
-        public static void RegisterModules(NinjectModule[] modules)
+        public static void RegisterModules(INinjectModule[] modules)
         {
             _resolver = new NinjectResolver(modules);
             DependencyResolver.SetResolver(_resolver);

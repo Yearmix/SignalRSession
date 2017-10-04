@@ -11,33 +11,40 @@ namespace YRX.SignalRSession.WebOnline
 {
     public class Global : HttpApplication
     {
+        // Hotfix for not working Inject attribute
         private ISessionManager _sessionManager;
+
+        public ISessionManager SessionManager
+        {
+            get
+            {
+                return _sessionManager ??
+                       (_sessionManager = DependencyResolver.Current.GetService<ISessionManager>());
+            }
+            set { _sessionManager = value; }
+        }
+
         void Application_Start(object sender, EventArgs e)
         {
-            // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             NinjectContainer.RegisterModules(NinjectModules.Modules);
             NinjectHttpContainer.RegisterModules(NinjectModules.Modules);
+            NinjectContainer.RegisterAssembly();
+            NinjectHttpContainer.RegisterAssembly();
             BundleTable.EnableOptimizations = true;
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        [Inject]
-        public void InitSessionManager(ISessionManager sessionManager)
-        {
-            _sessionManager = sessionManager;
-        }
-
         protected void Session_Start(object sender, EventArgs e)
         {
-            //_sessionManager.AddSession(Session);
+            SessionManager.AddSession(Session);
         }
 
         protected void Session_End(object sender, EventArgs e)
         {
-            //_sessionManager.RemoveSession(Session);
+            SessionManager.RemoveSession(Session);
         }
     }
 }
