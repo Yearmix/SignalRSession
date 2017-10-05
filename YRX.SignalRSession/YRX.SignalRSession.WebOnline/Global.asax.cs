@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http;
 using System.Web.Optimization;
-using Ninject;
 using YRX.SignalRSession.WebOnline.Infrastructure;
 
 namespace YRX.SignalRSession.WebOnline
